@@ -10,13 +10,27 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { useNavigate } from 'react-router-dom';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HistoryIcon from '@mui/icons-material/History';
+import PeopleIcon from '@mui/icons-material/People';
+import Typography from '@mui/material/Typography'; // Import Typography
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const drawerWidth = 200;
 
 export default function Sidenav() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Define the routes and their corresponding labels and icons
+  const navItems = [
+    { path: "/", label: "Dashboard", icon: <DashboardIcon /> },
+    { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
+    { path: "/history", label: "History", icon: <HistoryIcon /> },
+    { path: "/student", label: "Student", icon: <PeopleIcon /> },
+  ];
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -24,6 +38,7 @@ export default function Sidenav() {
         position="fixed"
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
       >
+        {/* You can add additional AppBar elements here if needed */}
       </AppBar>
       <Drawer
         sx={{
@@ -38,52 +53,26 @@ export default function Sidenav() {
         anchor="left"
       >
         <Toolbar />
+        <Box sx={{ p: 2, bgcolor: 'primary.main', color: 'white' }}>
+          <Typography variant="h6" noWrap>
+            Student Attendance System
+          </Typography>
+        </Box>
         <Divider />
-            <List>
-                <ListItem  disablePadding onClick={()=>{navigate("/")}}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                        <InboxIcon /> 
-                        </ListItemIcon>
-                        
-                        <ListItemText primary="Dashboard" />
-                    </ListItemButton>
-                </ListItem>
-
-                <ListItem  disablePadding onClick={()=>{navigate("/attendance")}} >
-                    <ListItemButton>
-                        <ListItemIcon>
-                        <InboxIcon /> 
-                        </ListItemIcon>
-                        
-                        <ListItemText primary="Attendance" />
-                    </ListItemButton>
-                </ListItem>
-
-                <ListItem  disablePadding onClick={()=>{navigate("/history")}}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                        <InboxIcon /> 
-                        </ListItemIcon>
-                        
-                        <ListItemText primary="History" />
-                    </ListItemButton>
-                </ListItem>
-
-                <ListItem  disablePadding onClick={()=>{navigate("/student")}}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                        <InboxIcon /> 
-                        </ListItemIcon>
-                        
-                        <ListItemText primary="Student" />
-                    </ListItemButton>
-                </ListItem>
-            </List>
+        <List>
+          {navItems.map((item) => (
+            <ListItem key={item.label} disablePadding onClick={() => navigate(item.path)}>
+              <ListItemButton selected={location.pathname === item.path}>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
         <Divider />
-        
       </Drawer>
-      
     </Box>
   );
 }
