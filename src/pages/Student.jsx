@@ -76,6 +76,16 @@ function Student() {
     setSelectedStudent((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put("http://localhost:8090/api/v1/student/updateRegStudent", selectedStudent);
+      console.log("Student updated successfully:", response.data);
+      fetchStudents(); // Refresh the student list after the update
+    } catch (error) {
+      console.error("Error updating student data:", error);
+    }
+  };
+
   return (
     <>
       <Sidenav />
@@ -164,7 +174,7 @@ function Student() {
 
           {/* Buttons below the text fields */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-            <Button variant="contained" color="primary" onClick={() => console.log("Update clicked")}>Update</Button>
+            <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
             <Button variant="contained" color="secondary" onClick={() => console.log("Delete clicked")}>Delete</Button>
             <Button variant="outlined" onClick={handleClear}>Clear</Button>
           </Box>
