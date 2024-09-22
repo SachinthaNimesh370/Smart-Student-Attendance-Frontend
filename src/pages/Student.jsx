@@ -100,7 +100,7 @@ function Student() {
   return (
     <>
       <Sidenav />
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 27, display: 'flex', justifyContent: 'space-between' }}>
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 27, display: 'flex', justifyContent: 'space-between',paddingTop:5 }}>
         
         {/* Table on the left side */}
         <Box sx={{ flex: 1, marginRight: 4 }}>
