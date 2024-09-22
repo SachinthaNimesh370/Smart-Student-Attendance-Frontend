@@ -86,14 +86,25 @@ function Student() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8090/api/v1/student/deleteRegStudent/${selectedStudent.studentRegNo}`);
+      console.log("Student deleted successfully:", response.data);
+      fetchStudents(); // Refresh the student list after deletion
+      handleClear(); // Clear selected student details after deletion
+    } catch (error) {
+      console.error("Error deleting student data:", error);
+    }
+  };
+
   return (
     <>
       <Sidenav />
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 27, display: 'flex', justifyContent: 'space-between' }}>
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 27, display: 'flex', justifyContent: 'space-between',paddingTop:5 }}>
         
         {/* Table on the left side */}
         <Box sx={{ flex: 1, marginRight: 4 }}>
-          <Typography variant="h4" gutterBottom>
+          <Typography gutterBottom sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
             Student Data
           </Typography>
           <TableContainer 
@@ -175,7 +186,7 @@ function Student() {
           {/* Buttons below the text fields */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
-            <Button variant="contained" color="secondary" onClick={() => console.log("Delete clicked")}>Delete</Button>
+            <Button variant="contained" color="secondary" onClick={handleDelete}>Delete</Button>
             <Button variant="outlined" onClick={handleClear}>Clear</Button>
           </Box>
         </Box>
