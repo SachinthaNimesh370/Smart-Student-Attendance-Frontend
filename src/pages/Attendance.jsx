@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Sidenav from '../Sidenav';
 import Box from '@mui/material/Box';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 
-// Custom styled components for the table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   color: '#120b4f',
@@ -21,7 +20,7 @@ const StyledBodyCell = styled(TableCell)(({ theme }) => ({
   borderRight: `1px solid ${theme.palette.divider}`,
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme, selected }) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: '91d7fa',
   },
@@ -29,18 +28,16 @@ const StyledTableRow = styled(TableRow)(({ theme, selected }) => ({
     backgroundColor: '91d7fa',
     cursor: 'pointer',
   },
-  backgroundColor: selected ? '91d7fa' : '91d7fa', // Highlight selected row
   height: '40px',
 }));
 
 function Attendance() {
   const [attendanceData, setAttendanceData] = useState([]);
-  const [selectedRow, setSelectedRow] = useState(null); // State to track selected row
 
   // Fetch the data from backend
   const fetchAttendanceData = async () => {
     try {
-      const response = await axios.get("http://localhost:8090/api/v1/student/getAllAttendance"); // Adjust the URL based on your API
+      const response = await axios.get("http://localhost:8090/api/v1/student/getAllAttendance");
       setAttendanceData(response.data);
     } catch (error) {
       console.error("Error fetching attendance data:", error);
@@ -51,17 +48,31 @@ function Attendance() {
     fetchAttendanceData();
   }, []);
 
-  // Function to handle row click and highlight the selected row
-  const handleRowClick = (index) => {
-    setSelectedRow(index); // Set the clicked row index as selected
+  const handleDelete = async (studentRegNo, date) => {
+    try {
+      // Convert the date from dd/MM/yyyy to yyyy-MM-dd
+      const [day, month, year] = date.split('/'); // Split the date string
+      const formattedDate = `${year}-${month}-${day}`; // Reformat to yyyy-MM-dd
+  
+      // Send the formatted date to the backend
+      await axios.delete(`http://localhost:8090/api/v1/student/deleteAttendance/${studentRegNo}/${formattedDate}`);
+      
+      // Refresh data after deletion
+      fetchAttendanceData();
+      alert("Record deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting attendance:", error);
+    }
   };
+
+
+
+  
 
   return (
     <>
       <Sidenav />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', justifyContent: 'space-between', paddingTop: 5 }}>
-        
-        {/* Table on the left side */}
         <Box sx={{ flex: 1, marginRight: 4 }}>
           <Typography gutterBottom sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
             Student Attendance
@@ -82,21 +93,26 @@ function Attendance() {
                   <StyledTableCell>Time</StyledTableCell>
                   <StyledTableCell>Student Reg No</StyledTableCell>                
                   <StyledTableCell>Location</StyledTableCell>
-                  {/* <StyledTableCell>Attendance</StyledTableCell> */}
+                  <StyledTableCell>Action</StyledTableCell> {/* Column for delete button */}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {attendanceData.map((record, index) => (
-                  <StyledTableRow
-                    key={index}
-                    selected={selectedRow === index} // Check if the row is selected
-                    onClick={() => handleRowClick(index)} // Handle row click
-                  >
+                  <StyledTableRow key={index}>
                     <StyledBodyCell>{record.date}</StyledBodyCell>
                     <StyledBodyCell>{record.time}</StyledBodyCell>
                     <StyledBodyCell>{record.studentRegNo}</StyledBodyCell>
                     <StyledBodyCell>{record.location.join(', ')}</StyledBodyCell>
-                    {/* <StyledBodyCell>{record.attendance ? 'Present' : 'Absent'}</StyledBodyCell> */}
+                    <StyledBodyCell>
+                      {/* Pass studentRegNo and date to handleDelete */}
+                      <Button 
+                        variant="contained" 
+                        color="secondary" 
+                        onClick={() => handleDelete(record.studentRegNo, record.date)}
+                      >
+                        Delete
+                      </Button>
+                    </StyledBodyCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
