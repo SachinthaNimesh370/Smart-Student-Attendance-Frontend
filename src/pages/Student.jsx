@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 // Custom styled components for the table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
-  color: theme.palette.common.white,
+  color: '#120b4f',
   fontWeight: 'bold',
   fontSize: '16px',
   padding: '10px',
@@ -23,6 +23,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.selected,
     cursor: 'pointer',
   },
+  
   height: '40px',
 }));
 

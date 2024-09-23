@@ -19,7 +19,7 @@ import SchoolIcon from '@mui/icons-material/School'; // You can choose any icon 
 import Typography from '@mui/material/Typography'; // Import Typography
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const drawerWidth = 205;
+const drawerWidth = 210;
 
 export default function Sidenav() {
   const navigate = useNavigate();
