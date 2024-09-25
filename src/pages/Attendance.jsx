@@ -50,14 +50,10 @@ function Attendance() {
 
   const handleDelete = async (studentRegNo, date) => {
     try {
-      // Convert the date from dd/MM/yyyy to yyyy-MM-dd
-      const [day, month, year] = date.split('/'); // Split the date string
-      const formattedDate = `${year}-${month}-${day}`; // Reformat to yyyy-MM-dd
-  
-      // Send the formatted date to the backend
+      const [day, month, year] = date.split('/');
+      const formattedDate = `${year}-${month}-${day}`;
+
       await axios.delete(`http://localhost:8090/api/v1/student/deleteAttendance/${studentRegNo}/${formattedDate}`);
-      
-      // Refresh data after deletion
       fetchAttendanceData();
       alert("Record deleted successfully!");
     } catch (error) {
@@ -65,9 +61,26 @@ function Attendance() {
     }
   };
 
+  const handleAccept = async (record) => {
+    try {
+      const { studentRegNo, time, date, location, attendance } = record;
+      
+      const requestBody = {
+        studentRegNo,
+        time,
+        date,
+        location,
+        attendance
+      };
 
-
-  
+      // Send POST request to accept attendance
+      const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
+      alert(response.data); // Show the success message from the backend
+      fetchAttendanceData();
+    } catch (error) {
+      console.error("Error accepting attendance:", error);
+    }
+  };
 
   return (
     <>
@@ -93,7 +106,7 @@ function Attendance() {
                   <StyledTableCell>Time</StyledTableCell>
                   <StyledTableCell>Student Reg No</StyledTableCell>                
                   <StyledTableCell>Location</StyledTableCell>
-                  <StyledTableCell>Action</StyledTableCell> {/* Column for delete button */}
+                  <StyledTableCell>Action</StyledTableCell> {/* Column for action buttons */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -104,7 +117,16 @@ function Attendance() {
                     <StyledBodyCell>{record.studentRegNo}</StyledBodyCell>
                     <StyledBodyCell>{record.location.join(', ')}</StyledBodyCell>
                     <StyledBodyCell>
-                      {/* Pass studentRegNo and date to handleDelete */}
+                      {/* "Accept" Button */}
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={() => handleAccept(record)}
+                        style={{ marginRight: 8 }} // Space between buttons
+                      >
+                        Accept
+                      </Button>
+                      {/* "Delete" Button */}
                       <Button 
                         variant="contained" 
                         color="secondary" 
