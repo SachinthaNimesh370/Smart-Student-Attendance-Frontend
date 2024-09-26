@@ -15,8 +15,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HistoryIcon from '@mui/icons-material/History';
 import PeopleIcon from '@mui/icons-material/People';
 import Avatar from '@mui/material/Avatar';
-import SchoolIcon from '@mui/icons-material/School'; // You can choose any icon you prefer
-import Typography from '@mui/material/Typography'; // Import Typography
+import SchoolIcon from '@mui/icons-material/School';
+import Typography from '@mui/material/Typography';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Logout icon
+import SummarizeIcon from '@mui/icons-material/Summarize'; // New Summery Icon
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const drawerWidth = 210;
@@ -28,10 +30,18 @@ export default function Sidenav() {
   // Define the routes and their corresponding labels and icons
   const navItems = [
     { path: "/", label: "Dashboard", icon: <DashboardIcon /> },
-    { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
-    { path: "/history", label: "History", icon: <HistoryIcon /> },
     { path: "/student", label: "Student", icon: <PeopleIcon /> },
+    { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
+    { path: "/summery", label: "Summery", icon: <SummarizeIcon /> }, // Updated Icon
+    { path: "/history", label: "History", icon: <HistoryIcon /> },
   ];
+
+  // Handle Logout click
+  const handleLogout = () => {
+    // Add your logout logic here (e.g., clearing tokens, redirecting)
+    console.log("User logged out");
+    navigate('/login'); // Redirect to login page after logout
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -61,9 +71,8 @@ export default function Sidenav() {
         </Box>
         
         <Box sx={{ p: 2, bgcolor: 'primary.main', color: 'white', display: 'flex', alignItems: 'center' }}>
-          
           <Typography fontSize={18} noWrap sx={{ mr: 1 }}>
-                  Student Attendance 
+            Student Attendance 
           </Typography>
         </Box>
 
@@ -81,6 +90,20 @@ export default function Sidenav() {
           ))}
         </List>
         <Divider />
+
+        {/* Logout button positioned at the bottom */}
+        <Box sx={{ mt: 'auto' }}>
+          <List>
+            <ListItem disablePadding onClick={handleLogout}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
       </Drawer>
     </Box>
   );
