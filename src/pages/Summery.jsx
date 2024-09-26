@@ -37,45 +37,53 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function Summery() {
-  // State to hold the new column name and attendance data
+  // State to hold data and messages
   const [columnName, setColumnName] = useState('');
-  const [message, setMessage] = useState('');
   const [attendanceData, setAttendanceData] = useState([]);
-
-  // Function to handle form submission
-  const handleAddColumn = async (e) => {
-    e.preventDefault(); // Prevent the page from refreshing
-
-    try {
-      // Send the request to the backend to add the new column
-      const response = await axios.post('http://localhost:8090/api/v1/student/addColumn', null, {
-        params: {
-          columnName: columnName, // Pass the new column name as a parameter
-        },
-      });
-
-      // On success, display a success message
-      setMessage(response.data);
-      setColumnName(''); // Reset the input field after submission
-    } catch (error) {
-      // Handle errors and display error message
-      setMessage('Error adding column: ' + error.message);
-    }
-  };
+  const [summeryData, setSummeryData] = useState([]);
+  const [message, setMessage] = useState('');
 
   // Function to fetch attendance data from the backend
   const fetchAttendanceData = async () => {
     try {
       const response = await axios.get('http://localhost:8090/api/v1/student/attendanceData');
-      setAttendanceData(response.data); // Assuming response data is an array of attendance records
+      setAttendanceData(response.data);
     } catch (error) {
-      setMessage('Error fetching data: ' + error.message);
+      setMessage('Error fetching attendance data: ' + error.message);
+    }
+  };
+
+  // Function to fetch summary data from the backend
+  const fetchSummeryData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8090/api/v1/student/getAllSummeryData');
+      setSummeryData(response.data);
+    } catch (error) {
+      setMessage('Error fetching summery data: ' + error.message);
+    }
+  };
+
+  // Function to handle form submission for adding a new column
+  const handleAddColumn = async (e) => {
+    e.preventDefault(); // Prevent the page from refreshing
+
+    try {
+      const response = await axios.post('http://localhost:8090/api/v1/student/addColumn', null, {
+        params: {
+          columnName: columnName,
+        },
+      });
+      setMessage(response.data);
+      setColumnName(''); // Reset the input field after submission
+    } catch (error) {
+      setMessage('Error adding column: ' + error.message);
     }
   };
 
   // Use effect to fetch data when the component mounts
   useEffect(() => {
-    fetchAttendanceData();
+    fetchAttendanceData(); // Fetch attendance data
+    fetchSummeryData();    // Fetch summary data
   }, []);
 
   return (
@@ -84,7 +92,7 @@ function Summery() {
 
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 5 }}>
         <Typography variant="h4" sx={{ fontWeight: 600, color: '#120b4f' }}>
-         Attendance Summery 
+          Attendance Summary
         </Typography>
 
         {/* Form to accept new column name */}
@@ -94,7 +102,7 @@ function Summery() {
             type="text"
             id="columnName"
             value={columnName}
-            onChange={(e) => setColumnName(e.target.value)} // Update state on input change
+            onChange={(e) => setColumnName(e.target.value)}
             placeholder="Enter column name"
             required
           />
@@ -104,36 +112,32 @@ function Summery() {
         {/* Display success or error message */}
         {message && <Typography color="error">{message}</Typography>}
 
-        {/* Attendance Data Table */}
+
+        {/* Summary Data Table */}
         <Typography variant="h4" sx={{ fontWeight: 600, color: '#120b4f', marginTop: '20px' }}>
-          Attendance Data
+          Summary Data
         </Typography>
-        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto' }}>
+        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto', marginTop: '20px' }}>
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Student Reg No</StyledTableCell>
-                <StyledTableCell>Date</StyledTableCell>
-                <StyledTableCell>Time</StyledTableCell>
-                <StyledTableCell>Location</StyledTableCell>
-                <StyledTableCell>Attendance</StyledTableCell>
-                {/* Add other columns dynamically if needed */}
+                {summeryData.length > 0 && Object.keys(summeryData[0]).map((key, index) => (
+                  <StyledTableCell key={index}>{key}</StyledTableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {attendanceData.length > 0 ? (
-                attendanceData.map((record, index) => (
-                  <StyledTableRow key={index}>
-                    <StyledBodyCell>{record.studentRegNo}</StyledBodyCell>
-                    <StyledBodyCell>{record.date}</StyledBodyCell>
-                    <StyledBodyCell>{record.time}</StyledBodyCell>
-                    <StyledBodyCell>{record.location.join(', ')}</StyledBodyCell> {/* Assuming location is an array */}
-                    <StyledBodyCell>{record.attendance ? 'Present' : 'Absent'}</StyledBodyCell>
+              {summeryData.length > 0 ? (
+                summeryData.map((row, rowIndex) => (
+                  <StyledTableRow key={rowIndex}>
+                    {Object.values(row).map((value, colIndex) => (
+                      <StyledBodyCell key={colIndex}>{value}</StyledBodyCell>
+                    ))}
                   </StyledTableRow>
                 ))
               ) : (
                 <StyledTableRow>
-                  <StyledBodyCell colSpan={5}>No attendance data available.</StyledBodyCell>
+                  <StyledBodyCell colSpan={100}>No summary data available.</StyledBodyCell>
                 </StyledTableRow>
               )}
             </TableBody>
