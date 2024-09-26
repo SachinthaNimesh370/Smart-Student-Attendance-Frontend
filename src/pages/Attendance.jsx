@@ -77,29 +77,34 @@ function Attendance() {
     }
   };
 
-  // Function to handle accepting an attendance record
-  const handleAccept = async (record) => {
-    try {
-      const { studentRegNo, time, date, location, attendance } = record;
+  // Function to handle accepting an attendance record and deleting it afterward
+const handleAccept = async (record) => {
+  try {
+    const { studentRegNo, time, date, location, attendance } = record;
 
-      const requestBody = {
-        studentRegNo,
-        time,
-        date,
-        location,
-        attendance
-      };
+    const requestBody = {
+      studentRegNo,
+      time,
+      date,
+      location,
+      attendance
+    };
 
-      const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
-      alert(response.data);
+    // Post the accepted attendance data
+    const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
+    alert(response.data);
 
-      // Add the accepted record to the set
-      setAcceptedRecords(prev => new Set(prev).add(record.studentRegNo)); // Track accepted records
-      fetchAttendanceData();
-    } catch (error) {
-      console.error("Error accepting attendance:", error);
-    }
-  };
+    // Add the accepted record to the set
+    setAcceptedRecords(prev => new Set(prev).add(record.studentRegNo)); // Track accepted records
+
+    // Call handleDelete to delete the attendance record after accepting it
+    await handleDelete(studentRegNo, date);
+
+  } catch (error) {
+    console.error("Error accepting attendance:", error);
+  }
+};
+
 
   return (
     <>
