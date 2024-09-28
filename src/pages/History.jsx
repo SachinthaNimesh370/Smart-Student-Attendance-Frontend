@@ -12,7 +12,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   color: '#120b4f',
   fontWeight: 'bold',
   fontSize: '16px',
-  padding: '8px', // Reduced padding
+  padding: '8px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
 }));
@@ -20,7 +20,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 // Styled body cell
 const StyledBodyCell = styled(TableCell)(({ theme }) => ({
   fontSize: '14px',
-  padding: '4px', // Reduced padding for body cells
+  padding: '4px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
 }));
@@ -34,35 +34,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.selected,
     cursor: 'pointer',
   },
-  height: '36px', // Reduced height to remove extra space
-  padding: 0, // Remove padding between rows
-  margin: 0, // Remove margin between rows
+  height: '36px',
+  padding: 0,
+  margin: 0,
 }));
 
 function History() {
-  const [historyData, setHistoryData] = useState([]); // State to hold fetched history data
-  const [open, setOpen] = useState(null); // Track which row is expanded
-  const columnWidths = useRef({}); // Ref to hold the widths of each column
+  const [historyData, setHistoryData] = useState([]);
+  const [open, setOpen] = useState(null);
+  const columnWidths = useRef({});
 
-  // Fetch history data from the backend
   const fetchHistoryData = async () => {
     try {
       const response = await axios.get("http://localhost:8090/api/v1/student/getAllAcceptAttendance");
-      setHistoryData(response.data); // Set the fetched data to state
+      setHistoryData(response.data);
     } catch (error) {
       console.error("Error fetching history data:", error);
     }
   };
 
   useEffect(() => {
-    fetchHistoryData(); // Call the fetch function when the component mounts
+    fetchHistoryData();
   }, []);
 
   const handleRowClick = (index) => {
-    setOpen(open === index ? null : index); // Toggle the clicked row's open state
+    setOpen(open === index ? null : index);
   };
 
-  // Capture the width of each main table column
   const setColumnWidth = (columnIndex, element) => {
     if (element) {
       columnWidths.current[columnIndex] = element.offsetWidth;
@@ -84,7 +82,7 @@ function History() {
                 <StyledTableCell ref={el => setColumnWidth(1, el)}>Date</StyledTableCell>
                 <StyledTableCell ref={el => setColumnWidth(2, el)}>Time</StyledTableCell>
                 <StyledTableCell ref={el => setColumnWidth(3, el)}>Location</StyledTableCell>
-                <StyledTableCell ref={el => setColumnWidth(4, el)}></StyledTableCell> {/* Column for expand/collapse icon */}
+                <StyledTableCell ref={el => setColumnWidth(4, el)}></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,7 +92,6 @@ function History() {
 
                 return (
                   <React.Fragment key={index}>
-                    {/* Main row */}
                     <StyledTableRow onClick={() => handleRowClick(index)}>
                       <StyledBodyCell>{record.studentRegNo}</StyledBodyCell>
                       <StyledBodyCell>{firstHistory.date}</StyledBodyCell>
@@ -107,7 +104,6 @@ function History() {
                       </StyledBodyCell>
                     </StyledTableRow>
 
-                    {/* Expanded rows without header */}
                     <StyledTableRow>
                       <TableCell style={{ paddingBottom: 0, paddingTop: 0, paddingLeft: 0, paddingRight: 0 }} colSpan={5}>
                         <Collapse in={open === index} timeout="auto" unmountOnExit>
@@ -121,7 +117,7 @@ function History() {
                                       <StyledBodyCell style={{ width: columnWidths.current[1] }}>{attendance.date}</StyledBodyCell>
                                       <StyledBodyCell style={{ width: columnWidths.current[2] }}>{attendance.time}</StyledBodyCell>
                                       <StyledBodyCell style={{ width: columnWidths.current[3] }}>{attendance.location}</StyledBodyCell>
-                                      <StyledBodyCell style={{ width: columnWidths.current[4] }}></StyledBodyCell> {/* Empty cell for alignment */}
+                                      <StyledBodyCell style={{ width: columnWidths.current[4] }}></StyledBodyCell>
                                     </StyledTableRow>
                                   )) 
                                   : 
