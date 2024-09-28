@@ -75,6 +75,8 @@ function Summery() {
       });
       setMessage(response.data);
       setColumnName('');
+      fetchAttendanceData();
+    fetchSummeryData();
     } catch (error) {
       setMessage('Error adding column: ' + error.message);
     }
