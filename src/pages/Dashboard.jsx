@@ -7,6 +7,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import CountUp from 'react-countup';
 import axios from 'axios';
 
+// Sample data for the graph
 const sampleData = [
   { name: 'Jan', value: 4000 },
   { name: 'Feb', value: 3000 },
@@ -14,6 +15,16 @@ const sampleData = [
   { name: 'Apr', value: 2780 },
   { name: 'May', value: 1890 },
 ];
+
+// Custom XAxis wrapper
+const CustomXAxis = (props) => {
+  return <XAxis {...props} dataKey={props.dataKey || 'name'} />;
+};
+
+// Custom YAxis wrapper
+const CustomYAxis = (props) => {
+  return <YAxis {...props} />;
+};
 
 function Dashboard() {
   const [totalStudents, setTotalStudents] = useState(0);
@@ -95,8 +106,8 @@ function Dashboard() {
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={sampleData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
+              <CustomXAxis />
+              <CustomYAxis />
               <Tooltip />
               <Legend />
               <Line type="monotone" dataKey="value" stroke="#3f51b5" strokeWidth={2} />
