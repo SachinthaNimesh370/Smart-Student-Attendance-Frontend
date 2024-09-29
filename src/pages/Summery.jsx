@@ -76,9 +76,25 @@ function Summery() {
       setMessage(response.data);
       setColumnName('');
       fetchAttendanceData();
-    fetchSummeryData();
+      fetchSummeryData();
     } catch (error) {
       setMessage('Error adding column: ' + error.message);
+    }
+  };
+
+  // Function to handle form submission for deleting a column
+  const handleDeleteColumn = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8090/api/v1/student/deleteColumn', null, {
+        params: { columnName: columnName },
+      });
+      setMessage(response.data);
+      setColumnName('');
+      fetchAttendanceData();
+      fetchSummeryData();
+    } catch (error) {
+      setMessage('Error deleting column: ' + error.message);
     }
   };
 
@@ -111,7 +127,6 @@ function Summery() {
 
         {/* Form to accept new column name */}
         <form
-          onSubmit={handleAddColumn}
           style={{
             marginBottom: '20px',
             display: 'flex',
@@ -123,8 +138,8 @@ function Summery() {
             marginLeft: 920,
           }}
         >
-          <Typography htmlFor="columnName" style={{ color: '#333' }}>
-            New Column Name:
+          <Typography htmlFor="columnName" style={{ color: '#333',paddingRight:73 }}>
+            Column Name:
           </Typography>
           <TextField
             id="columnName"
@@ -138,7 +153,7 @@ function Summery() {
             }}
             variant="outlined"
             sx={{
-              width: '150px', // Set the desired width
+              width: '255px', // Set the desired width
               height: '40px', // Set the desired height
               '& .MuiOutlinedInput-root': {
                 height: '100%', // Ensure the input takes the full height
@@ -149,9 +164,24 @@ function Summery() {
               },
             }}
           />
-          <Button type="submit" variant="contained" color="primary" style={{ padding: '10px 10px', width: 120, fontSize: 12 }}>
-            Create Column
-          </Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              onClick={handleAddColumn}
+              variant="contained"
+              color="primary"
+              style={{ padding: '10px 10px', width: 120, fontSize: 12 }}
+            >
+              Create Column
+            </Button>
+            <Button
+              onClick={handleDeleteColumn}
+              variant="contained"
+              color="secondary"
+              style={{ padding: '10px 10px', width: 120, fontSize: 12 }}
+            >
+              Delete Column
+            </Button>
+          </Box>
         </form>
 
         {/* Summary Data Table */}
