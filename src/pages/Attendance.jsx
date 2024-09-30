@@ -118,7 +118,7 @@ const handleAccept = async (record) => {
             component={Paper} 
             sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto' }}
           >
-            <Table stickyHeader>
+            <Table stickyHeader >
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Date</StyledTableCell>
