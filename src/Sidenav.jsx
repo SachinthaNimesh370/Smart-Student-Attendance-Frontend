@@ -14,12 +14,14 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HistoryIcon from '@mui/icons-material/History';
 import PeopleIcon from '@mui/icons-material/People';
+import FaceIcon from '@mui/icons-material/Face'; // Import FaceIcon
 import Avatar from '@mui/material/Avatar';
 import SchoolIcon from '@mui/icons-material/School';
 import Typography from '@mui/material/Typography';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Logout icon
 import SummarizeIcon from '@mui/icons-material/Summarize'; // New Summery Icon
 import { useNavigate, useLocation } from 'react-router-dom';
+import FaceRecognize from './pages/FaceRecognize';
 
 const drawerWidth = 210;
 
@@ -34,6 +36,7 @@ export default function Sidenav() {
     { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
     { path: "/summery", label: "Summery", icon: <SummarizeIcon /> }, // Updated Icon
     { path: "/history", label: "History", icon: <HistoryIcon /> },
+    { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
   ];
 
   // Handle Logout click

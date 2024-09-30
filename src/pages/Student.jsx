@@ -158,8 +158,8 @@ function Student() {
         </Box>
 
         {/* Text fields and buttons on the right side for form inputs */}
-        <Box sx={{ width: 250, paddingTop: 5 }}>
-          <Typography variant="h6" gutterBottom>
+        <Box sx={{ width: 250, paddingTop: 8 }}>
+          <Typography sx={{fontSize:22,fontWeight:500,color: '#120b4f',marginBottom:5 }} gutterBottom>
             Selected Student Details
           </Typography>
           <TextField

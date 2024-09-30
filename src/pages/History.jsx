@@ -6,20 +6,22 @@ import { styled } from '@mui/material/styles';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import axios from 'axios';
 
-// Styled header cell
+// Styled header cell with angled text alignment
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   color: '#120b4f',
   fontWeight: 'bold',
-  fontSize: '16px',
+  fontSize: '14px',
   padding: '8px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
+  height: '50px',
+  position: 'relative',
 }));
 
 // Styled body cell
 const StyledBodyCell = styled(TableCell)(({ theme }) => ({
-  fontSize: '14px',
+  fontSize: '12px',
   padding: '4px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
@@ -70,12 +72,12 @@ function History() {
   return (
     <>
       <Sidenav />
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 27 }}>
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30 }}>
         <Typography gutterBottom sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           History
         </Typography>
-        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto' }}>
-          <Table stickyHeader>
+        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto',marginTop:4 }}>
+          <Table stickyHeader >
             <TableHead>
               <TableRow>
                 <StyledTableCell ref={el => setColumnWidth(0, el)}>Student Reg No</StyledTableCell>

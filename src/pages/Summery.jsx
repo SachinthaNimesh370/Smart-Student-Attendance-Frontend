@@ -121,7 +121,7 @@ function Summery() {
           paddingTop: 5,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 600, color: '#120b4f' }}>
+        <Typography component="main" sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           Attendance Summary
         </Typography>
 
