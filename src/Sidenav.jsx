@@ -14,6 +14,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HistoryIcon from '@mui/icons-material/History';
 import PeopleIcon from '@mui/icons-material/People';
+import FaceIcon from '@mui/icons-material/Face'; // Import FaceIcon
 import Avatar from '@mui/material/Avatar';
 import SchoolIcon from '@mui/icons-material/School';
 import Typography from '@mui/material/Typography';
@@ -35,7 +36,7 @@ export default function Sidenav() {
     { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
     { path: "/summery", label: "Summery", icon: <SummarizeIcon /> }, // Updated Icon
     { path: "/history", label: "History", icon: <HistoryIcon /> },
-    { path: "/face_recognize", label: "FaceRecognize", icon: <null /> },
+    { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
   ];
 
   // Handle Logout click
