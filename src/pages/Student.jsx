@@ -43,12 +43,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   height: '40px',
 }));
 
-// Custom styled components for the body cells
-const StyledBodyCell = styled(TableCell)(({ theme }) => ({
+// Custom styled components for the body cells with conditional styling for status
+const StyledBodyCell = styled(TableCell)(({ theme, status }) => ({
   fontSize: '14px',
   padding: '6px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
+  color: status === 'Inactive' ? 'red' : status === 'Active' ? 'green' : 'inherit', // Apply green color if status is Active
 }));
 
 function Student() {
@@ -149,7 +150,9 @@ function Student() {
                     <StyledBodyCell>{student.studentRegNo}</StyledBodyCell>
                     <StyledBodyCell>{student.studentEmail}</StyledBodyCell>
                     <StyledBodyCell>{student.studentPassword}</StyledBodyCell>
-                    <StyledBodyCell>{student.activestatus ? "Active" : "Inactive"}</StyledBodyCell>
+                    <StyledBodyCell status={student.activestatus ? 'Active' : 'Inactive'}>
+                      {student.activestatus ? "Active" : "Inactive"}
+                    </StyledBodyCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

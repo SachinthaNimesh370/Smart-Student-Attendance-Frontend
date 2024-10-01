@@ -76,7 +76,7 @@ function History() {
         <Typography gutterBottom sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           History
         </Typography>
-        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto',marginTop:4 }}>
+        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto', marginTop: 4 }}>
           <Table stickyHeader >
             <TableHead>
               <TableRow>
@@ -98,7 +98,11 @@ function History() {
                       <StyledBodyCell>{record.studentRegNo}</StyledBodyCell>
                       <StyledBodyCell>{firstHistory.date}</StyledBodyCell>
                       <StyledBodyCell>{firstHistory.time}</StyledBodyCell>
-                      <StyledBodyCell>{firstHistory.location}</StyledBodyCell>
+                      <StyledBodyCell>
+                        {Array.isArray(firstHistory.location) 
+                          ? `${firstHistory.location[0]}, ${firstHistory.location[1]}` 
+                          : firstHistory.location}
+                      </StyledBodyCell>
                       <StyledBodyCell>
                         <IconButton size="small">
                           {open === index ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -118,7 +122,11 @@ function History() {
                                       <StyledBodyCell style={{ width: columnWidths.current[0] }}>{record.studentRegNo}</StyledBodyCell>
                                       <StyledBodyCell style={{ width: columnWidths.current[1] }}>{attendance.date}</StyledBodyCell>
                                       <StyledBodyCell style={{ width: columnWidths.current[2] }}>{attendance.time}</StyledBodyCell>
-                                      <StyledBodyCell style={{ width: columnWidths.current[3] }}>{attendance.location}</StyledBodyCell>
+                                      <StyledBodyCell style={{ width: columnWidths.current[3] }}>
+                                        {Array.isArray(attendance.location) 
+                                          ? `${attendance.location[0]}, ${attendance.location[1]}` 
+                                          : attendance.location}
+                                      </StyledBodyCell>
                                       <StyledBodyCell style={{ width: columnWidths.current[4] }}></StyledBodyCell>
                                     </StyledTableRow>
                                   )) 
