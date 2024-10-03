@@ -41,7 +41,7 @@ function Dashboard() {
     // Fetching attendance data
     axios.get('http://localhost:8090/api/v1/student/dayByDayCounts')
       .then(response => {
-        const data = response.data;
+        const data = response.data.data;
         setAttendanceData(data);
 
         const totalPresentCount = data.reduce((acc, curr) => acc + curr.presentCount, 0);
