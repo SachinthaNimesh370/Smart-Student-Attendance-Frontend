@@ -49,7 +49,7 @@ function Summery() {
   const fetchAttendanceData = async () => {
     try {
       const response = await axios.get('http://localhost:8090/api/v1/student/attendanceData');
-      setAttendanceData(response.data);
+      setAttendanceData(response.data.data);
     } catch (error) {
       setMessage('Error fetching attendance data: ' + error.message);
     }
@@ -59,8 +59,8 @@ function Summery() {
   const fetchSummeryData = async () => {
     try {
       const response = await axios.get('http://localhost:8090/api/v1/student/getAllSummeryData');
-      setSummeryData(response.data);
-      console.log(response.data);
+      setSummeryData(response.data.data);
+      console.log(response.data.data);
     } catch (error) {
       setMessage('Error fetching summery data: ' + error.message);
     }
@@ -73,7 +73,7 @@ function Summery() {
       const response = await axios.post('http://localhost:8090/api/v1/student/addColumn', null, {
         params: { columnName: columnName },
       });
-      setMessage(response.data);
+      setMessage(response.data.data);
       setColumnName('');
       fetchAttendanceData();
       fetchSummeryData();
@@ -89,7 +89,7 @@ function Summery() {
       const response = await axios.post('http://localhost:8090/api/v1/student/deleteColumn', null, {
         params: { columnName: columnName },
       });
-      setMessage(response.data);
+      setMessage(response.data.data);
       setColumnName('');
       fetchAttendanceData();
       fetchSummeryData();
