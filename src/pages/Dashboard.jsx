@@ -3,7 +3,7 @@ import Sidenav from '../Sidenav';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; // Change here
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import CountUp from 'react-countup';
 import axios from 'axios';
 
@@ -12,6 +12,9 @@ function Dashboard() {
   const [activeStudents, setActiveStudents] = useState(0);
   const [nonActiveStudents, setNonActiveStudents] = useState(0);
   const [attendanceData, setAttendanceData] = useState([]);
+  const [attendancePercentage, setAttendancePercentage] = useState(0);
+  const [firstDataPercentage, setFirstDataPercentage] = useState(0);
+  const [firstDataTitle, setFirstDataTitle] = useState("");
 
   useEffect(() => {
     // Fetching student data
@@ -37,10 +40,30 @@ function Dashboard() {
 
     // Fetching attendance data
     axios.get('http://localhost:8090/api/v1/student/dayByDayCounts')
-      .then(response => {
-        // Update the attendance data state
-        setAttendanceData(response.data); // Assuming the response format is correct
-      })
+  .then(response => {
+    const data = response.data;
+
+    // Update the attendance data state
+    setAttendanceData(data); // Assuming the response format is correct
+
+    // Calculate total present count and total count
+    const totalPresentCount = data.reduce((acc, curr) => acc + curr.presentCount, 0);
+    const totalCount = data.reduce((acc, curr) => acc + curr.totalCount, 0);
+
+    // Calculate overall attendance percentage
+    const percentage = (totalPresentCount / totalCount) * 100;
+    setAttendancePercentage(percentage.toFixed(2)); // Round to two decimal places
+
+    // Calculate percentage for the last entry in the attendance data
+    if (data.length > 0) {
+      const lastEntry = data[data.length - 1];  // Get the last element in the array
+      const lastPercentage = (lastEntry.presentCount / lastEntry.totalCount) * 100;
+      setFirstDataPercentage(lastPercentage.toFixed(2)); // Update the percentage state
+      setFirstDataTitle(`${lastEntry.columnName} Attendance Percentage`); // Update the title to reflect the last column
+    }
+  })
+ 
+
       .catch(error => {
         console.error("There was an error fetching the attendance data!", error);
       });
@@ -113,23 +136,53 @@ function Dashboard() {
               <CountUp start={0} end={nonActiveStudents} duration={2} />
             </Typography>
           </Paper>
+
+          {/* Card 5: Total Attendance Percentage */}
+          <Paper sx={{ 
+            padding: 2, 
+            flex: 1, 
+            marginLeft: 2, 
+            bgcolor: '#ffeb3b', // Light Yellow
+            border: '2px solid #fbc02d', // Yellow border
+            borderRadius: 2,
+          }}>
+            <Typography variant="h6">Total Attendance Percentage</Typography>
+            <Typography variant="h4" sx={{ color: '#fbc02d' }}>
+              <CountUp start={0} end={attendancePercentage} duration={2} suffix="%" />
+            </Typography>
+          </Paper>
+
+          {/* Card 6: First Entry Attendance Percentage */}
+          <Paper sx={{ 
+            padding: 2, 
+            flex: 1, 
+            marginLeft: 2, 
+            bgcolor: '#c8e6c9', // Light Green
+            border: '2px solid #66bb6a', // Green border
+            borderRadius: 2,
+          }}>
+            <Typography variant="h6">{firstDataTitle}</Typography>
+            <Typography variant="h4" sx={{ color: '#66bb6a' }}>
+              <CountUp start={0} end={firstDataPercentage} duration={2} suffix="%" />
+            </Typography>
+          </Paper>
         </Box>
 
-        {/* Bar Chart for Attendance */}
+        {/* Line Chart for Attendance */}
         <Box sx={{ mt: 4, height: 300 }}>
           <Typography variant="h6" gutterBottom>
             Day-by-Day Attendance
           </Typography>
           <ResponsiveContainer>
-            <BarChart data={attendanceData}>
+            <LineChart data={attendanceData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="columnName" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="presentCount" fill="#4caf50" />
-              <Bar dataKey="absentCount" fill="#f44336" />
-            </BarChart>
+              <Line type="monotone" dataKey="presentCount" stroke="#4caf50" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="absentCount" stroke="#f44336" />
+            </LineChart>
           </ResponsiveContainer>
         </Box>
       </Box>
