@@ -73,10 +73,11 @@ function History() {
     <>
       <Sidenav />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30 }}>
-        <Typography gutterBottom sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
+        <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           History
         </Typography>
-        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto', marginTop: 4 }}>
+        
+        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto',  }}>
           <Table stickyHeader >
             <TableHead>
               <TableRow>

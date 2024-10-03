@@ -71,7 +71,7 @@ function Dashboard() {
     <>
       <Sidenav />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30 }}>
-        <Typography variant="h4" gutterBottom>
+      <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           Dashboard
         </Typography>
 

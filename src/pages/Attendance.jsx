@@ -109,9 +109,9 @@ const handleAccept = async (record) => {
   return (
     <>
       <Sidenav />
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', justifyContent: 'space-between', paddingTop: 5 }}>
-        <Box sx={{ flex: 1, marginRight: 4 }}>
-          <Typography gutterBottom sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', justifyContent: 'space-between', paddingTop: 4 }}>
+        <Box sx={{ flex: 1, marginRight: 4 }}>         
+        <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
             Student Attendance
           </Typography>
           <TableContainer 

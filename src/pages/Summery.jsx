@@ -107,6 +107,7 @@ function Summery() {
   return (
     <>
       <Sidenav />
+      
 
       <Box
         component="main"
@@ -117,13 +118,13 @@ function Summery() {
           paddingLeft: 30,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          paddingTop: 5,
+          paddingTop: 3,
         }}
       >
-        <Typography component="main" sx={{ textAlign: 'center', fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
+        <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           Attendance Summary
         </Typography>
+        
 
         {/* Form to accept new column name */}
         <form
