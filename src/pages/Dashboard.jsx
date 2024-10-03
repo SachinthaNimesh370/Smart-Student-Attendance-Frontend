@@ -66,7 +66,14 @@ function Dashboard() {
         
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
           {/* Card 1: Total Attendance */}
-          <Paper sx={{ padding: 2, flex: 1, marginRight: 2, bgcolor: '#f5f5f5' }}>
+          <Paper sx={{ 
+            padding: 2, 
+            flex: 1, 
+            marginRight: 2, 
+            bgcolor: '#e3f2fd', // Light Blue
+            border: '2px solid #2196f3', // Blue border
+            borderRadius: 2,
+          }}>
             <Typography variant="h6">Total Attendance</Typography>
             <Typography variant="h4" sx={{ color: '#3f51b5' }}>
               <CountUp start={0} end={1500} duration={2} />
@@ -74,15 +81,28 @@ function Dashboard() {
           </Paper>
 
           {/* Card 2: Total Students */}
-          <Paper sx={{ padding: 2, flex: 1, bgcolor: '#f5f5f5' }}>
+          <Paper sx={{ 
+            padding: 2, 
+            flex: 1, 
+            bgcolor: '#fff0f5', // Light Pink
+            border: '2px solid #ff85af', // Pink border
+            borderRadius: 2,
+          }}>
             <Typography variant="h6">Total Students</Typography>
-            <Typography variant="h4" sx={{ color: '#3f51b5' }}>
+            <Typography variant="h4" sx={{ color: '#e91e63' }}>
               <CountUp start={0} end={totalStudents} duration={2} />
             </Typography>
           </Paper>
 
           {/* Card 3: Active Students */}
-          <Paper sx={{ padding: 2, flex: 1, marginLeft: 2, bgcolor: '#f5f5f5' }}>
+          <Paper sx={{ 
+            padding: 2, 
+            flex: 1, 
+            marginLeft: 2, 
+            bgcolor: '#e8f5e9', // Light Green
+            border: '2px solid #4caf50', // Green border
+            borderRadius: 2,
+          }}>
             <Typography variant="h6">Active Students</Typography>
             <Typography variant="h4" sx={{ color: '#4caf50' }}>
               <CountUp start={0} end={activeStudents} duration={2} />
@@ -90,7 +110,14 @@ function Dashboard() {
           </Paper>
 
           {/* Card 4: Non-Active Students */}
-          <Paper sx={{ padding: 2, flex: 1, marginLeft: 2, bgcolor: '#f5f5f5' }}>
+          <Paper sx={{ 
+            padding: 2, 
+            flex: 1, 
+            marginLeft: 2, 
+            bgcolor: '#ffebee', // Light Red
+            border: '2px solid #f44336', // Red border
+            borderRadius: 2,
+          }}>
             <Typography variant="h6">Non-Active Students</Typography>
             <Typography variant="h4" sx={{ color: '#f44336' }}>
               <CountUp start={0} end={nonActiveStudents} duration={2} />
