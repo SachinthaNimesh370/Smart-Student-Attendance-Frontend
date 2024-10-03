@@ -53,7 +53,7 @@ function Attendance() {
   const fetchAttendanceData = async () => {
     try {
       const response = await axios.get("http://localhost:8090/api/v1/student/getAllAttendance");
-      setAttendanceData(response.data);
+      setAttendanceData(response.data.data);
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -66,7 +66,7 @@ function Attendance() {
   // Function to handle the deletion of a student's attendance record
   const handleDelete = async (studentRegNo, date) => {
     try {
-      const [day, month, year] = date.split('/');
+      const [day, month, year] = date.data.split('/');
       const formattedDate = `${year}-${month}-${day}`;
 
       await axios.delete(`http://localhost:8090/api/v1/student/deleteAttendance/${studentRegNo}/${formattedDate}`);
@@ -92,7 +92,7 @@ const handleAccept = async (record) => {
 
     // Post the accepted attendance data
     const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
-    alert(response.data);
+    alert(response.data.data);
 
     // Add the accepted record to the set
     setAcceptedRecords(prev => new Set(prev).add(record.studentRegNo)); // Track accepted records

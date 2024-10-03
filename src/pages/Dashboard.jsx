@@ -34,7 +34,7 @@ function Dashboard() {
   useEffect(() => {
     axios.get('http://localhost:8090/api/v1/student/getAllStudent')
       .then(response => {
-        const students = response.data;
+        const students = response.data.data;
 
         // Debug: log the response to check the data format
         console.log('API Response:', students);
