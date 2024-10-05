@@ -98,7 +98,7 @@ const handleAccept = async (record) => {
     setAcceptedRecords(prev => new Set(prev).add(record.studentRegNo)); // Track accepted records
 
     // Call handleDelete to delete the attendance record after accepting it
-    await handleDelete(studentRegNo, date);
+    handleDelete(studentRegNo, date);
 
   } catch (error) {
     console.error("Error accepting attendance:", error);
