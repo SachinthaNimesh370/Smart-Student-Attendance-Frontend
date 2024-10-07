@@ -1,46 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import Sidenav from '../Sidenav';
 import { Box, Typography, TextField, Button, Card, CardContent } from '@mui/material';
-import axios from 'axios'; // Use axios for API calls
+import axios from 'axios';
 
 function Notification() {
+  // Helper function to get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // Helper function to get current time in HH:MM format
+  const getCurrentTime = () => {
+    const today = new Date();
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
   const [notificationData, setNotificationData] = useState({
-    id: null, // Store the ID of the notification for updating/deleting
-    date: '',
-    notification: ''
+    id: null, // ID for updating/deleting notifications
+    date: getTodayDate(), // Default date
+    time: getCurrentTime(), // Default time
+    notification: '' // Notification content
   });
 
   const [notifications, setNotifications] = useState([]);
 
-  // Handle input change for creating/updating notification
+  // Handle input changes for form fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNotificationData({ ...notificationData, [name]: value });
   };
 
-  // Handle form submit to create notification
+  // Handle form submission for creating/updating notifications
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (notificationData.id) {
-      // If ID exists, it's an update
+      // Update existing notification
       try {
         const response = await axios.put('http://localhost:8090/api/v1/student/updateNotification', notificationData);
-        alert(response.data); // Show success message returned by backend
+        alert(response.data); // Show success message
       } catch (error) {
         console.error("Error updating notification", error);
       }
     } else {
-      // Otherwise, it's a create
+      // Create new notification
       try {
         const response = await axios.post('http://localhost:8090/api/v1/student/createNotification', notificationData);
-        alert(response.data); // Show success message returned by backend
+        alert(response.data); // Show success message
       } catch (error) {
         console.error("Error creating notification", error);
       }
     }
 
-    // Clear the form after submission and refresh notifications
+    // Clear the form and fetch updated notifications
     clearForm();
     fetchNotifications();
   };
@@ -60,14 +78,24 @@ function Notification() {
     fetchNotifications();
   }, []);
 
-  // Handle clicking on a notification card to set the form data
+  // Handle clicking on a notification card to populate the form
   const handleCardClick = (notif) => {
-    setNotificationData({ id: notif.id, date: notif.date, notification: notif.notification });
+    setNotificationData({ 
+      id: notif.id, 
+      date: notif.date, 
+      time: notif.time, 
+      notification: notif.notification 
+    });
   };
 
   // Clear form fields
   const clearForm = () => {
-    setNotificationData({ id: null, date: '', notification: '' });
+    setNotificationData({ 
+      id: null, 
+      date: getTodayDate(), 
+      time: getCurrentTime(), 
+      notification: '' 
+    });
   };
 
   // Handle delete notification
@@ -76,7 +104,7 @@ function Notification() {
       try {
         await axios.delete(`http://localhost:8090/api/v1/student/deleteNotification/${id}`);
         alert('Notification deleted successfully');
-        fetchNotifications(); // Refresh the list after deletion
+        fetchNotifications(); // Refresh notifications after deletion
       } catch (error) {
         console.error("Error deleting notification", error);
       }
@@ -101,6 +129,17 @@ function Notification() {
               name="date"
               value={notificationData.date}
               onChange={handleInputChange}
+              type="date" // Separate input for date
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Time"
+              name="time"
+              value={notificationData.time}
+              onChange={handleInputChange}
+              type="time" // Separate input for time
               fullWidth
               margin="normal"
               required
@@ -123,17 +162,17 @@ function Notification() {
           </Box>
         </Box>
 
-        {/* Parent Card containing Notification Cards */}
+        {/* Notification Cards on the right-hand side */}
         <Card sx={{ flex: 1, maxWidth: '50%', marginLeft: 'auto', marginTop: 13, maxHeight: 550, overflowY: 'auto' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {notifications.map((notif) => (
-              <Card key={notif.id} sx={{ mb: 2 }} onClick={() => handleCardClick(notif)}> {/* Child card with click handler */}
+              <Card key={notif.id} sx={{ mb: 2 }} onClick={() => handleCardClick(notif)}>
                 <CardContent>
-                  <Typography variant="h6" component="div">
+                  <Typography sx={{ fontSize: 16 }} component="div">
                     {notif.notification}
                   </Typography>
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    {notif.date}
+                  <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
+                    {notif.date} {notif.time}
                   </Typography>
                   <Button variant="outlined" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(notif.id); }} >
                     Delete
@@ -143,7 +182,7 @@ function Notification() {
             ))}
           </CardContent>
         </Card>
-        
+
       </Box>
     </>
   );

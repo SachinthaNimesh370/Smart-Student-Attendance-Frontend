@@ -36,9 +36,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   height: '40px',  // Height of table rows
 }));
 
-
 // Styled cell for buttons, center buttons within cell
-const ButtonCell = styled(StyledBodyCell)({
+const ButtonCell = styled(StyledBodyCell)( {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -65,8 +64,13 @@ function Attendance() {
 
   // Function to handle the deletion of a student's attendance record
   const handleDelete = async (studentRegNo, date) => {
+    if (!date || typeof date !== 'string') {
+      console.error("Invalid date format:", date);
+      return; // Early return if date is invalid
+    }
+
     try {
-      const [day, month, year] = date.data.split('/');
+      const [day, month, year] = date.split('/'); // Make sure date is in the format dd/mm/yyyy
       const formattedDate = `${year}-${month}-${day}`;
 
       await axios.delete(`http://localhost:8090/api/v1/student/deleteAttendance/${studentRegNo}/${formattedDate}`);
@@ -78,47 +82,46 @@ function Attendance() {
   };
 
   // Function to handle accepting an attendance record and deleting it afterward
-const handleAccept = async (record) => {
-  try {
-    const { studentRegNo, time, date, location, attendance } = record;
+  const handleAccept = async (record) => {
+    try {
+      const { studentRegNo, time, date, location, attendance } = record;
 
-    const requestBody = {
-      studentRegNo,
-      time,
-      date,
-      location,
-      attendance
-    };
+      const requestBody = {
+        studentRegNo,
+        time,
+        date,
+        location,
+        attendance,
+      };
 
-    // Post the accepted attendance data
-    const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
-    alert(response.data.data);
+      // Post the accepted attendance data
+      const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
+      alert(response.data.data);
 
-    // Add the accepted record to the set
-    setAcceptedRecords(prev => new Set(prev).add(record.studentRegNo)); // Track accepted records
+      // Add the accepted record to the set
+      setAcceptedRecords(prev => new Set(prev).add(record.studentRegNo)); // Track accepted records
 
-    // Call handleDelete to delete the attendance record after accepting it
-    handleDelete(studentRegNo, date);
+      // Call handleDelete to delete the attendance record after accepting it
+      handleDelete(studentRegNo, date);
 
-  } catch (error) {
-    console.error("Error accepting attendance:", error);
-  }
-};
-
+    } catch (error) {
+      console.error("Error accepting attendance:", error);
+    }
+  };
 
   return (
     <>
       <Sidenav />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', justifyContent: 'space-between', paddingTop: 4 }}>
         <Box sx={{ flex: 1, marginRight: 4 }}>         
-        <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
+          <Typography sx={{ fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
             Student Attendance
           </Typography>
           <TableContainer 
             component={Paper} 
             sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto' }}
           >
-            <Table stickyHeader >
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Date</StyledTableCell>
@@ -147,7 +150,7 @@ const handleAccept = async (record) => {
                       <Button 
                         variant="contained" 
                         color="secondary" 
-                        onClick={() => handleDelete(record.studentRegNo, record.date)}
+                        onClick={() => handleDelete(record.studentRegNo, record.date)} // Ensure record.date is a string
                       >
                         Delete
                       </Button>
