@@ -131,8 +131,8 @@ function Student() {
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', justifyContent: 'space-between' }}>
         {/* Table on the left side for displaying student data */}
         <Box sx={{ flex: 1, marginRight: 4 }}>
-        <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
-            Student Data
+          <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
+              Student Data
           </Typography>
           <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1, maxHeight: 600, overflowY: 'auto' }}>
             <Table stickyHeader>

@@ -41,19 +41,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Summery() {
   const [columnName, setColumnName] = useState('');
-  const [attendanceData, setAttendanceData] = useState([]);
+           // const [attendanceData, setAttendanceData] = useState([]);
   const [summeryData, setSummeryData] = useState([]);
   const [message, setMessage] = useState('');
 
-  // Function to fetch attendance data from the backend
-  const fetchAttendanceData = async () => {
-    try {
-      const response = await axios.get('http://localhost:8090/api/v1/student/attendanceData');
-      setAttendanceData(response.data.data);
-    } catch (error) {
-      setMessage('Error fetching attendance data: ' + error.message);
-    }
-  };
+          // Function to fetch attendance data from the backend
+          // const fetchAttendanceData = async () => {
+          //   try {
+          //     const response = await axios.get('http://localhost:8090/api/v1/student/attendanceData');
+          //     setAttendanceData(response.data.data);
+          //   } catch (error) {
+          //     setMessage('Error fetching attendance data: ' + error.message);
+          //   }
+          // };
 
   // Function to fetch summary data from the backend
   const fetchSummeryData = async () => {
@@ -75,7 +75,7 @@ function Summery() {
       });
       setMessage(response.data.data);
       setColumnName('');
-      fetchAttendanceData();
+                // fetchAttendanceData();
       fetchSummeryData();
     } catch (error) {
       setMessage('Error adding column: ' + error.message);
@@ -91,7 +91,7 @@ function Summery() {
       });
       setMessage(response.data.data);
       setColumnName('');
-      fetchAttendanceData();
+            // fetchAttendanceData();
       fetchSummeryData();
     } catch (error) {
       setMessage('Error deleting column: ' + error.message);
@@ -100,7 +100,7 @@ function Summery() {
 
   // Use effect to fetch data when the component mounts
   useEffect(() => {
-    fetchAttendanceData();
+              // fetchAttendanceData();
     fetchSummeryData();
   }, []);
 

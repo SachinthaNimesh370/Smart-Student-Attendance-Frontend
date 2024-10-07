@@ -21,7 +21,8 @@ import Typography from '@mui/material/Typography';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Logout icon
 import SummarizeIcon from '@mui/icons-material/Summarize'; // New Summery Icon
 import { useNavigate, useLocation } from 'react-router-dom';
-import FaceRecognize from './pages/FaceRecognize';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 const drawerWidth = 210;
 
@@ -37,6 +38,7 @@ export default function Sidenav() {
     { path: "/summery", label: "Summery", icon: <SummarizeIcon /> }, // Updated Icon
     { path: "/history", label: "History", icon: <HistoryIcon /> },
     { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
+    { path: "/notification", label: "Notification", icon: <NotificationsIcon /> },
   ];
 
   // Handle Logout click
