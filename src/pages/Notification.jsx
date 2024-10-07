@@ -5,13 +5,14 @@ import axios from 'axios'; // Use axios for API calls
 
 function Notification() {
   const [notificationData, setNotificationData] = useState({
+    id: null, // Store the ID of the notification for updating/deleting
     date: '',
     notification: ''
   });
 
   const [notifications, setNotifications] = useState([]);
 
-  // Handle input change for creating notification
+  // Handle input change for creating/updating notification
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNotificationData({ ...notificationData, [name]: value });
@@ -20,16 +21,28 @@ function Notification() {
   // Handle form submit to create notification
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      // Make POST request to the back end
-      const response = await axios.post('http://localhost:8090/api/v1/student/createNotification', notificationData); // Update with your backend URL
-      alert(response.data); // Show success message returned by backend
-      setNotificationData({ date: '', notification: '' }); // Clear the form after submission
-      fetchNotifications(); // Refresh the list of notifications after submission
-    } catch (error) {
-      console.error("Error creating notification", error);
+    
+    if (notificationData.id) {
+      // If ID exists, it's an update
+      try {
+        const response = await axios.put('http://localhost:8090/api/v1/student/updateNotification', notificationData);
+        alert(response.data); // Show success message returned by backend
+      } catch (error) {
+        console.error("Error updating notification", error);
+      }
+    } else {
+      // Otherwise, it's a create
+      try {
+        const response = await axios.post('http://localhost:8090/api/v1/student/createNotification', notificationData);
+        alert(response.data); // Show success message returned by backend
+      } catch (error) {
+        console.error("Error creating notification", error);
+      }
     }
+
+    // Clear the form after submission and refresh notifications
+    clearForm();
+    fetchNotifications();
   };
 
   // Fetch all notifications from the back end
@@ -49,14 +62,32 @@ function Notification() {
 
   // Handle clicking on a notification card to set the form data
   const handleCardClick = (notif) => {
-    setNotificationData({ date: notif.date, notification: notif.notification });
+    setNotificationData({ id: notif.id, date: notif.date, notification: notif.notification });
+  };
+
+  // Clear form fields
+  const clearForm = () => {
+    setNotificationData({ id: null, date: '', notification: '' });
+  };
+
+  // Handle delete notification
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this notification?")) {
+      try {
+        await axios.delete(`http://localhost:8090/api/v1/student/deleteNotification/${id}`);
+        alert('Notification deleted successfully');
+        fetchNotifications(); // Refresh the list after deletion
+      } catch (error) {
+        console.error("Error deleting notification", error);
+      }
+    }
   };
 
   return (
     <>
       <Sidenav />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, paddingLeft: 30, display: 'flex', justifyContent: 'space-between' }}>
-        
+
         {/* Notification Form on the left-hand side */}
         <Box sx={{ flex: 1, marginRight: 4 }}>
           <Typography sx={{ fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
@@ -84,7 +115,10 @@ function Notification() {
               required
             />
             <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-              Create Notification
+              {notificationData.id ? "Update Notification" : "Create Notification"}
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={clearForm} sx={{ mt: 2, ml: 2 }}>
+              Clear
             </Button>
           </Box>
         </Box>
@@ -101,6 +135,9 @@ function Notification() {
                   <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {notif.date}
                   </Typography>
+                  <Button variant="outlined" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(notif.id); }} >
+                    Delete
+                  </Button>
                 </CardContent>
               </Card>
             ))}
