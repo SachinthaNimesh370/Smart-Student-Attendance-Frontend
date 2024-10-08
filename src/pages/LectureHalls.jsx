@@ -1,30 +1,124 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidenav from '../Sidenav';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import {
+  Box, Typography, TextField, Button,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
+} from '@mui/material';
 import axios from 'axios';
+import { styled } from '@mui/material/styles';
+
+// Custom styled components for the table headers
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light,
+  color: '#120b4f',
+  fontWeight: 'bold',
+  fontSize: '16px',
+  padding: '10px',
+  borderRight: `1px solid ${theme.palette.divider}`,
+  textAlign: 'center',
+}));
+
+// Custom styled components for the body cells with conditional styling for status
+const StyledBodyCell = styled(TableCell)(({ theme, status }) => ({
+  fontSize: '14px',
+  padding: '6px',
+  borderRight: `1px solid ${theme.palette.divider}`,
+  textAlign: 'center',
+  color: status === 'Inactive' ? 'red' : status === 'Active' ? 'green' : 'inherit',
+}));
 
 function LectureHalls() {
-  // State variables to store form input values
   const [hallName, setHallName] = useState('');
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
+  const [lectureHalls, setLectureHalls] = useState([]);
+  const [selectedHallId, setSelectedHallId] = useState(null);
 
-  // Handler for submitting form data
+  useEffect(() => {
+    fetchLectureHalls();
+  }, []);
+
+  const fetchLectureHalls = async () => {
+    try {
+      const response = await axios.get('http://localhost:8090/api/v1/student/getAlllecturehall');
+      setLectureHalls(response.data);
+    } catch (error) {
+      console.error('Error fetching lecture halls:', error);
+    }
+  };
+
   const handleSubmit = async () => {
-    // Create the lecture hall data object
     const lectureHallData = {
+      id: selectedHallId,
       hall_name: hallName,
-      location: [parseFloat(latitude), parseFloat(longitude)], // Location array with latitude and longitude
+      location: [parseFloat(latitude), parseFloat(longitude)],
     };
 
     try {
-      // Send the data to the backend using axios
       const response = await axios.post('http://localhost:8090/api/v1/student/savelecturehall', lectureHallData);
-      alert(response.data); // Display response message
+      alert(response.data);
+      fetchLectureHalls();
+      clearFields();
     } catch (error) {
       console.error('Error saving lecture hall:', error);
       alert('Error saving lecture hall');
     }
+  };
+
+  const handleUpdate = async () => {
+    if (selectedHallId === null) {
+      alert("Please select a lecture hall to update.");
+      return;
+    }
+
+    const lectureHallData = {
+      id: selectedHallId,
+      hall_name: hallName,
+      location: [parseFloat(latitude), parseFloat(longitude)],
+    };
+
+    try {
+      const response = await axios.put('http://localhost:8090/api/v1/student/updatelecturehall', lectureHallData);
+      alert(response.data);
+      fetchLectureHalls();
+      clearFields();
+      setSelectedHallId(null);
+    } catch (error) {
+      console.error('Error updating lecture hall:', error);
+      alert('Error updating lecture hall');
+    }
+  };
+
+  // Delete lecture hall by ID
+  const handleDelete = async () => {
+    if (selectedHallId === null) {
+      alert("Please select a lecture hall to delete.");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`http://localhost:8090/api/v1/student/deletelecturehall/${selectedHallId}`);
+      alert(response.data);
+      fetchLectureHalls();
+      clearFields();
+      setSelectedHallId(null);
+    } catch (error) {
+      console.error('Error deleting lecture hall:', error);
+      alert('Error deleting lecture hall');
+    }
+  };
+
+  const handleRowClick = (hall) => {
+    setHallName(hall.hall_name);
+    setLatitude(hall.location[0].toString());
+    setLongitude(hall.location[1].toString());
+    setSelectedHallId(hall.id);
+  };
+
+  const clearFields = () => {
+    setHallName('');
+    setLatitude('');
+    setLongitude('');
   };
 
   return (
@@ -44,32 +138,82 @@ function LectureHalls() {
             value={hallName}
             onChange={(e) => setHallName(e.target.value)}
             fullWidth
-            sx={{ width: '25%', height: '50px' }}  // Customize width and height here
+            sx={{ width: '25%', height: '50px' }}
           />
           <TextField
             label="Latitude"
             value={latitude}
             onChange={(e) => setLatitude(e.target.value)}
             fullWidth
-            sx={{ width: '25%', height: '50px' }}  // Customize width and height here
+            sx={{ width: '25%', height: '50px' }}
           />
           <TextField
             label="Longitude"
             value={longitude}
             onChange={(e) => setLongitude(e.target.value)}
             fullWidth
-            sx={{ width: '25%', height: '50px' }}  // Customize width and height here
+            sx={{ width: '25%', height: '50px' }}
           />
 
-          {/* Submit Button */}
-          <Button 
-              variant="contained" 
-              color="primary" 
-              onClick={handleSubmit} 
-              sx={{ width: '25%', height: '50px' }}  // sx goes here, inside the opening tag
-            >
-              Save Lecture Hall
+          {/* Save Button */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{ width: '25%', height: '50px' }}
+          >
+            Save Lecture Hall
           </Button>
+
+          {/* Update Button */}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleUpdate}
+            sx={{ width: '25%', height: '50px', marginTop: '10px' }}
+          >
+            Update Lecture Hall
+          </Button>
+
+          {/* Delete Button */}
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDelete}
+            sx={{ width: '25%', height: '50px', marginTop: '10px' }}
+          >
+            Delete Lecture Hall
+          </Button>
+        </Box>
+
+        {/* Table to display lecture halls */}
+        <Box sx={{ marginTop: 4, display: 'flex', justifyContent: 'flex-end', marginTop: -50 }}>
+          <TableContainer component={Paper} sx={{ width: '73%' }}>
+            <Table sx={{ minWidth: 650 }} aria-label="lecture hall table">
+              <TableHead>
+                <TableRow sx={{ backgroundColor: '#e0f7fa' }}>
+                  {/* Customized Table Header */}
+                  <StyledTableCell >Lecture Hall Name</StyledTableCell>
+                  <StyledTableCell >Latitude</StyledTableCell>
+                  <StyledTableCell >Longitude</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {lectureHalls.map((hall) => (
+                  <TableRow
+                    key={hall.id}
+                    onClick={() => handleRowClick(hall)}
+                    hover
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <StyledBodyCell component="th" scope="row">{hall.hall_name}</StyledBodyCell>
+                    <StyledBodyCell align="right">{hall.location[0]}</StyledBodyCell>
+                    <StyledBodyCell align="right">{hall.location[1]}</StyledBodyCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
       </Box>
     </>
