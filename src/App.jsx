@@ -7,6 +7,7 @@ import Student from './pages/Student';
 import Summery from './pages/Summery';
 import FaceRecognize from './pages/FaceRecognize';
 import Notification from './pages/Notification';
+import LectureHalls from './pages/LectureHalls';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/summery" element={<Summery />} />
           <Route path="/face_recognize" element={<FaceRecognize />} />
           <Route path="/notification" element={<Notification />} />
+          <Route path="/lecturehalls" element={<LectureHalls />} />
          
         </Routes>
       </BrowserRouter>
