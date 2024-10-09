@@ -137,7 +137,27 @@ function Attendance() {
                     <StyledBodyCell>{record.date}</StyledBodyCell>
                     <StyledBodyCell>{record.time}</StyledBodyCell>
                     <StyledBodyCell>{record.studentRegNo}</StyledBodyCell>
-                    <StyledBodyCell>{record.location.join(', ')}</StyledBodyCell>
+                    <StyledBodyCell>
+                      {(() => {
+                        // Destructure and convert lat and lon to the desired formats
+                        const [lat, lon] = record.location;
+                        const formattedLat = parseFloat(lat).toFixed(3); // Convert lat to x.xxxx
+                        const formattedLon = parseFloat(lon).toFixed(3); // Convert lon to xx.xxx
+                        console.log(formattedLat);
+                        console.log("9.3327");
+
+                        // Validate based on the formatted values
+                        if (formattedLat === '9.332' && formattedLon === '80.414') {
+                          return 'Lecture Hall 01';
+                        } else if (formattedLat === '9.333' && formattedLon === '80.414') {
+                          return 'Lecture Hall 02';
+                        } else {
+                          return 'Fake Attendance';
+                          
+                        }
+                      })()}
+                    </StyledBodyCell>
+
                     <ButtonCell>
                       <Button 
                         variant="contained" 

@@ -96,7 +96,26 @@ function Dashboard() {
             
           </Paper>
 
-          {/* Card 2: Total Students */}
+          {/* Card 2: Total Attendance Percentage */}
+          <Paper elevation={4}
+            sx={{ 
+              padding: 2, 
+              flex: 1, 
+              marginRight: 2, 
+              bgcolor: '#c8e6c9', 
+              border: '2px solid #66bb6a', 
+              borderRadius: 2,
+            }}>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography sx={{fontSize:18,fontWeight:600}}>Total Attendance Percentage</Typography>
+              <Typography variant="h4" sx={{ color: '#66bb6a' }}>
+                <CountUp start={0} end={attendancePercentage} duration={2} suffix="%" />
+              </Typography>
+            </Box>
+            
+          </Paper>
+
+          {/* Card 3: Total Students */}
           <Paper elevation={4}
             sx={{ 
               padding: 2, 
@@ -114,7 +133,7 @@ function Dashboard() {
               
           </Paper>
 
-          {/* Card 3: Active Students */}
+          {/* Card 4: Active Students */}
           <Paper elevation={4}
             sx={{ 
               padding: 2, 
@@ -133,7 +152,7 @@ function Dashboard() {
             
           </Paper>
 
-          {/* Card 4: Non-Active Students */}
+          {/* Card 5: Non-Active Students */}
           <Paper elevation={4}
             sx={{ 
               padding: 2, 
@@ -152,24 +171,7 @@ function Dashboard() {
             
           </Paper>
 
-          {/* Card 5: Total Attendance Percentage */}
-          <Paper elevation={4}
-            sx={{ 
-              padding: 2, 
-              flex: 1, 
-              marginLeft: 2, 
-              bgcolor: '#c8e6c9', 
-              border: '2px solid #66bb6a', 
-              borderRadius: 2,
-            }}>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography sx={{fontSize:18,fontWeight:600}}>Total Attendance Percentage</Typography>
-              <Typography variant="h4" sx={{ color: '#66bb6a' }}>
-                <CountUp start={0} end={attendancePercentage} duration={2} suffix="%" />
-              </Typography>
-            </Box>
-            
-          </Paper>
+          
           
         </Box>
 
