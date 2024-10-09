@@ -102,8 +102,8 @@ function Dashboard() {
               padding: 2, 
               flex: 1, 
               marginRight: 2, 
-              bgcolor: '#c8e6c9', 
-              border: '2px solid #66bb6a', 
+              bgcolor: '#e8f5e9', 
+              border: '2px solid #4caf50', 
               borderRadius: 2,
             }}>
             <Box sx={{ textAlign: 'center' }}>
@@ -139,8 +139,9 @@ function Dashboard() {
               padding: 2, 
               flex: 1, 
               marginLeft: 2, 
-              bgcolor: '#e8f5e9', 
-              border: '2px solid #4caf50', 
+              
+              bgcolor: '#c8e6c9', 
+              border: '2px solid #66bb6a', 
               borderRadius: 2,
             }}>
             <Box sx={{ textAlign: 'center' }}>
