@@ -104,6 +104,35 @@ function History() {
                           ? `${firstHistory.location[0]}, ${firstHistory.location[1]}` 
                           : firstHistory.location}
                       </StyledBodyCell>
+                      {/* <StyledBodyCell>
+                        {(() => {
+                          // Destructure lat and lon from the location array
+                          if (Array.isArray(firstHistory.location)) {
+                            const [lat, lon] = firstHistory.location;
+
+                            // Format lat and lon to three decimal places
+                            const formattedLat = parseFloat(lat).toFixed(3);
+                            const formattedLon = parseFloat(lon).toFixed(3);
+
+                            console.log(formattedLat, formattedLon);
+
+                            // Check formatted coordinates and return corresponding location name
+                            if (formattedLat === '9.332' && formattedLon === '80.414') {
+                              return 'Lecture Hall 01';
+                            } else if (formattedLat === '9.333' && formattedLon === '80.414') {
+                              return 'Lecture Hall 02';
+                            } else {
+                              return 'Fake Attendance';
+                            }
+                          } else {
+                            // Handle case where location is not an array
+                            return 'Invalid Location';
+                          }
+                        })()}
+                      </StyledBodyCell> */}
+                      
+
+
                       <StyledBodyCell>
                         <IconButton size="small">
                           {open === index ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
