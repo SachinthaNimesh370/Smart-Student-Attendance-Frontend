@@ -154,7 +154,10 @@ function LectureHalls() {
             fullWidth
             sx={{ width: '25%', height: '50px' }}
           />
+        </Box>
 
+        {/* Button Container */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
           {/* Save Button */}
           <Button
             variant="contained"
@@ -170,7 +173,7 @@ function LectureHalls() {
             variant="contained"
             color="secondary"
             onClick={handleUpdate}
-            sx={{ width: '25%', height: '50px', marginTop: '10px' }}
+            sx={{ width: '25%', height: '50px' }}
           >
             Update Lecture Hall
           </Button>
@@ -180,22 +183,32 @@ function LectureHalls() {
             variant="contained"
             color="error"
             onClick={handleDelete}
-            sx={{ width: '25%', height: '50px', marginTop: '10px' }}
+            sx={{ width: '25%', height: '50px' }}
           >
             Delete Lecture Hall
+          </Button>
+
+          {/* Clear Button */}
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={clearFields}
+            sx={{ width: '25%', height: '50px' }}
+          >
+            Clear Fields
           </Button>
         </Box>
 
         {/* Table to display lecture halls */}
-        <Box sx={{ marginTop: 4, display: 'flex', justifyContent: 'flex-end', marginTop: -50 }}>
+        <Box sx={{ marginTop: -55, display: 'flex', justifyContent: 'flex-end' }}>
           <TableContainer component={Paper} sx={{ width: '73%' }}>
             <Table sx={{ minWidth: 650 }} aria-label="lecture hall table">
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#e0f7fa' }}>
                   {/* Customized Table Header */}
-                  <StyledTableCell >Lecture Hall Name</StyledTableCell>
-                  <StyledTableCell >Latitude</StyledTableCell>
-                  <StyledTableCell >Longitude</StyledTableCell>
+                  <StyledTableCell>Lecture Hall Name</StyledTableCell>
+                  <StyledTableCell>Latitude</StyledTableCell>
+                  <StyledTableCell>Longitude</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
