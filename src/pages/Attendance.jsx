@@ -66,6 +66,7 @@ function Attendance() {
   const handleDelete = async (studentRegNo, date) => {
     if (!date || typeof date !== 'string') {
       console.error("Invalid date format:", date);
+      // Ale
       return; // Early return if date is invalid
     }
 
