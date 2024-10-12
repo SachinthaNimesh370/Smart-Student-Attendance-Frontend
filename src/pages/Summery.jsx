@@ -19,12 +19,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   position: 'relative',
 }));
 
-// Styled body cell
-const StyledBodyCell = styled(TableCell)(({ theme }) => ({
+// Styled body cell with conditional red font color for null values
+const StyledBodyCell = styled(TableCell)(({ theme, isNull }) => ({
   fontSize: '12px',
   padding: '4px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
+  color: isNull ? 'red' : 'inherit', // Set font color to red for null values
 }));
 
 // Custom styled table row
@@ -41,19 +42,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Summery() {
   const [columnName, setColumnName] = useState('');
-           // const [attendanceData, setAttendanceData] = useState([]);
   const [summeryData, setSummeryData] = useState([]);
   const [message, setMessage] = useState('');
-
-          // Function to fetch attendance data from the backend
-          // const fetchAttendanceData = async () => {
-          //   try {
-          //     const response = await axios.get('http://localhost:8090/api/v1/student/attendanceData');
-          //     setAttendanceData(response.data.data);
-          //   } catch (error) {
-          //     setMessage('Error fetching attendance data: ' + error.message);
-          //   }
-          // };
 
   // Function to fetch summary data from the backend
   const fetchSummeryData = async () => {
@@ -75,7 +65,6 @@ function Summery() {
       });
       setMessage(response.data.data);
       setColumnName('');
-                // fetchAttendanceData();
       fetchSummeryData();
     } catch (error) {
       setMessage('Error adding column: ' + error.message);
@@ -91,7 +80,6 @@ function Summery() {
       });
       setMessage(response.data.data);
       setColumnName('');
-            // fetchAttendanceData();
       fetchSummeryData();
     } catch (error) {
       setMessage('Error deleting column: ' + error.message);
@@ -100,15 +88,12 @@ function Summery() {
 
   // Use effect to fetch data when the component mounts
   useEffect(() => {
-              // fetchAttendanceData();
     fetchSummeryData();
   }, []);
 
   return (
     <>
       <Sidenav />
-      
-
       <Box
         component="main"
         sx={{
@@ -121,10 +106,9 @@ function Summery() {
           paddingTop: 3,
         }}
       >
-        <Typography  sx={{  fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
+        <Typography sx={{ fontWeight: 600, fontSize: 40, color: '#120b4f' }}>
           Attendance Summary
         </Typography>
-        
 
         {/* Form to accept new column name */}
         <form
@@ -139,7 +123,7 @@ function Summery() {
             marginLeft: 920,
           }}
         >
-          <Typography htmlFor="columnName" style={{ color: '#333',paddingRight:73 }}>
+          <Typography htmlFor="columnName" style={{ color: '#333', paddingRight: 73 }}>
             Column Name:
           </Typography>
           <TextField
@@ -210,7 +194,7 @@ function Summery() {
                 summeryData.map((row, rowIndex) => (
                   <StyledTableRow key={rowIndex}>
                     {Object.values(row).map((value, colIndex) => (
-                      <StyledBodyCell key={colIndex}>
+                      <StyledBodyCell key={colIndex} isNull={value === null}>
                         {/* Display string values as they are and convert boolean/null to 1/0 */}
                         {typeof value === 'boolean' ? (value ? 1 : 0) : value === null ? 0 : value}
                       </StyledBodyCell>

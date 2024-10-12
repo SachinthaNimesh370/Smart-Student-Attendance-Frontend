@@ -25,7 +25,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 
-const drawerWidth = 210;
+const drawerWidth = 225;
 
 export default function Sidenav() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function Sidenav() {
     { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
     { path: "/summery", label: "Summery", icon: <SummarizeIcon /> }, // Updated Icon
     { path: "/history", label: "History", icon: <HistoryIcon /> },
-    { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
+    // { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
     { path: "/notification", label: "Notification", icon: <NotificationsIcon /> },
     { path: "/lecturehalls", label: "LectureHalls", icon: <MeetingRoomIcon /> },
   ];
@@ -71,14 +71,14 @@ export default function Sidenav() {
         variant="permanent"
         anchor="left"
       >
-        <Box sx={{alignContent: 'center',paddingLeft:10,bgcolor: 'primary.main',paddingTop:2 }}>
-          <Avatar sx={{ mr: 1,alignItems: 'center' }}>
+        <Box sx={{alignContent: 'center',paddingLeft:11,bgcolor: 'primary.main',paddingTop:2, }}>
+          <Avatar sx={{ mr: 1,alignItems: 'center', }}>
             <SchoolIcon />
           </Avatar>
         </Box>
         
         <Box sx={{ p: 2, bgcolor: 'primary.main', color: 'white', display: 'flex', alignItems: 'center' }}>
-          <Typography fontSize={18} noWrap sx={{ mr: 1 }}>
+          <Typography fontSize={18} noWrap sx={{ mr: 1 ,paddingLeft:2}}>
             Student Attendance 
           </Typography>
         </Box>

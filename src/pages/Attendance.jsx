@@ -66,6 +66,7 @@ function Attendance() {
   const handleDelete = async (studentRegNo, date) => {
     if (!date || typeof date !== 'string') {
       console.error("Invalid date format:", date);
+      alert(date);
       return; // Early return if date is invalid
     }
 
@@ -144,13 +145,17 @@ function Attendance() {
                         const formattedLat = parseFloat(lat).toFixed(3); // Convert lat to x.xxxx
                         const formattedLon = parseFloat(lon).toFixed(3); // Convert lon to xx.xxx
                         console.log(formattedLat);
-                        console.log("9.3327");
+                        console.log(formattedLon);
 
                         // Validate based on the formatted values
                         if (formattedLat === '9.332' && formattedLon === '80.414') {
                           return 'Lecture Hall 01';
                         } else if (formattedLat === '9.333' && formattedLon === '80.414') {
                           return 'Lecture Hall 02';
+                        } else if (formattedLat === '6.900' && formattedLon === '79.873') {
+                          return 'BMICH UOJ Stall';
+                        } else if (formattedLat === '0.000' && formattedLon === '0.000') {
+                          return 'BMICH UOJ Stall';
                         } else {
                           return 'Fake Attendance';
                           
