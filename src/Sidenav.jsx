@@ -38,7 +38,7 @@ export default function Sidenav() {
     { path: "/attendance", label: "Attendance", icon: <CheckCircleIcon /> },
     { path: "/summery", label: "Summery", icon: <SummarizeIcon /> }, // Updated Icon
     { path: "/history", label: "History", icon: <HistoryIcon /> },
-    // { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
+     { path: "/face_recognize", label: "FaceRecognize", icon: <FaceIcon /> },
     { path: "/notification", label: "Notification", icon: <NotificationsIcon /> },
     { path: "/lecturehalls", label: "LectureHalls", icon: <MeetingRoomIcon /> },
   ];
