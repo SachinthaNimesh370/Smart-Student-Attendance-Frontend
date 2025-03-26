@@ -51,7 +51,7 @@ function Attendance() {
   // Fetch the data from backend
   const fetchAttendanceData = async () => {
     try {
-      const response = await axios.get("http://localhost:8090/api/v1/student/getAllAttendance");
+      const response = await axios.get("http://localhost:8090/api/v1/controller/getAllAttendance");
       setAttendanceData(response.data.data);
     } catch (error) {
       console.error("Error fetching attendance data:", error);
@@ -73,7 +73,7 @@ function Attendance() {
       const [day, month, year] = date.split('/'); // Make sure date is in the format dd/mm/yyyy
       const formattedDate = `${year}-${month}-${day}`;
 
-      await axios.delete(`http://localhost:8090/api/v1/student/deleteAttendance/${studentRegNo}/${formattedDate}`);
+      await axios.delete(`http://localhost:8090/api/v1/controller/deleteAttendance/${studentRegNo}/${formattedDate}`);
       fetchAttendanceData();
       alert("Record deleted successfully!");
     } catch (error) {
@@ -95,7 +95,7 @@ function Attendance() {
       };
 
       // Post the accepted attendance data
-      const response = await axios.post('http://localhost:8090/api/v1/student/acceptedAttendance', requestBody);
+      const response = await axios.post('http://localhost:8090/api/v1/controller/acceptedAttendance', requestBody);
       alert(response.data.data);
 
       // Add the accepted record to the set

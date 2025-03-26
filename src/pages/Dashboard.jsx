@@ -23,7 +23,7 @@ function Dashboard() {
 
   useEffect(() => {
     // Fetching student data
-    axios.get('http://localhost:8090/api/v1/student/getAllStudent')
+    axios.get('http://localhost:8090/api/v1/controller/getAllStudent')
       .then(response => {
         const students = response.data.data;
         const total = students.length;
@@ -39,7 +39,7 @@ function Dashboard() {
       });
 
     // Fetching attendance data
-    axios.get('http://localhost:8090/api/v1/student/dayByDayCounts')
+    axios.get('http://localhost:8090/api/v1/controller/dayByDayCounts')
       .then(response => {
         const data = response.data.data;
         setAttendanceData(data);
