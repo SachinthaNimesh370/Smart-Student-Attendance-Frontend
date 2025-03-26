@@ -48,7 +48,7 @@ function History() {
 
   const fetchHistoryData = async () => {
     try {
-      const response = await axios.get("http://localhost:8090/api/v1/student/getAllAcceptAttendance");
+      const response = await axios.get("http://localhost:8090/api/v1/controller/getAllAcceptAttendance");
       setHistoryData(response.data.data);
     } catch (error) {
       console.error("Error fetching history data:", error);

@@ -43,7 +43,7 @@ function Notification() {
     if (notificationData.id) {
       // Update existing notification
       try {
-        const response = await axios.put('http://localhost:8090/api/v1/student/updateNotification', notificationData);
+        const response = await axios.put('http://localhost:8090/api/v1/controller/updateNotification', notificationData);
         alert(response.data); // Show success message
       } catch (error) {
         console.error("Error updating notification", error);
@@ -51,7 +51,7 @@ function Notification() {
     } else {
       // Create new notification
       try {
-        const response = await axios.post('http://localhost:8090/api/v1/student/createNotification', notificationData);
+        const response = await axios.post('http://localhost:8090/api/v1/controller/createNotification', notificationData);
         alert(response.data); // Show success message
       } catch (error) {
         console.error("Error creating notification", error);
@@ -66,7 +66,7 @@ function Notification() {
   // Fetch all notifications from the back end
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get('http://localhost:8090/api/v1/student/getAllNotifications');
+      const response = await axios.get('http://localhost:8090/api/v1/controller/getAllNotifications');
       setNotifications(response.data);
     } catch (error) {
       console.error("Error fetching notifications", error);
@@ -102,7 +102,7 @@ function Notification() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this notification?")) {
       try {
-        await axios.delete(`http://localhost:8090/api/v1/student/deleteNotification/${id}`);
+        await axios.delete(`http://localhost:8090/api/v1/controller/deleteNotification/${id}`);
         alert('Notification deleted successfully');
         fetchNotifications(); // Refresh notifications after deletion
       } catch (error) {

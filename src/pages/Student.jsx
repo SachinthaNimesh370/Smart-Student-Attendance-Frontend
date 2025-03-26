@@ -64,7 +64,7 @@ function Student() {
   // Fetch all student data from the backend API
   const fetchStudents = async () => {
     try {
-      const response = await axios.get("http://localhost:8090/api/v1/student/getAllStudent"); // API call to fetch students
+      const response = await axios.get("http://localhost:8090/api/v1/controller/getAllStudent"); // API call to fetch students
       setStudents(response.data.data); // Set the retrieved student data
     } catch (error) {
       console.error("Error fetching student data:", error); // Log error if fetching fails
@@ -105,7 +105,7 @@ function Student() {
   // Update the selected student data via API call
   const handleUpdate = async () => {
     try {
-      const response = await axios.put("http://localhost:8090/api/v1/student/updateRegStudent", selectedStudent); // API call to update student
+      const response = await axios.put("http://localhost:8090/api/v1/controller/updateRegStudent", selectedStudent); // API call to update student
       console.log("Student updated successfully:", response.data.data);
       fetchStudents(); // Refresh the student list after the update
     } catch (error) {
@@ -116,7 +116,7 @@ function Student() {
   // Delete the selected student via API call
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:8090/api/v1/student/deleteRegStudent/${selectedStudent.studentRegNo}`); // API call to delete student
+      const response = await axios.delete(`http://localhost:8090/api/v1/controller/deleteRegStudent/${selectedStudent.studentRegNo}`); // API call to delete student
       console.log("Student deleted successfully:", response.data.data);
       fetchStudents(); // Refresh the student list after deletion
       handleClear(); // Clear the form after student is deleted

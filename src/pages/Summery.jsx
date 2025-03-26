@@ -48,7 +48,7 @@ function Summery() {
   // Function to fetch summary data from the backend
   const fetchSummeryData = async () => {
     try {
-      const response = await axios.get('http://localhost:8090/api/v1/student/getAllSummeryData');
+      const response = await axios.get('http://localhost:8090/api/v1/controller/getAllSummeryData');
       setSummeryData(response.data.data);
       console.log(response.data.data);
     } catch (error) {
@@ -60,7 +60,7 @@ function Summery() {
   const handleAddColumn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8090/api/v1/student/addColumn', null, {
+      const response = await axios.post('http://localhost:8090/api/v1/controller/addColumn', null, {
         params: { columnName: columnName },
       });
       setMessage(response.data.data);
@@ -75,7 +75,7 @@ function Summery() {
   const handleDeleteColumn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8090/api/v1/student/deleteColumn', null, {
+      const response = await axios.post('http://localhost:8090/api/v1/controller/deleteColumn', null, {
         params: { columnName: columnName },
       });
       setMessage(response.data.data);
