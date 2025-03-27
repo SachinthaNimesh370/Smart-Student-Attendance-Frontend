@@ -44,7 +44,7 @@ function Notification() {
       // Update existing notification
       try {
         const response = await axios.put('http://localhost:8090/api/v1/controller/updateNotification', notificationData);
-        alert(response.data); // Show success message
+        alert(response.data.data); // Show success message
       } catch (error) {
         console.error("Error updating notification", error);
       }
@@ -52,7 +52,7 @@ function Notification() {
       // Create new notification
       try {
         const response = await axios.post('http://localhost:8090/api/v1/controller/createNotification', notificationData);
-        alert(response.data); // Show success message
+        alert(response.data.data); // Show success message
       } catch (error) {
         console.error("Error creating notification", error);
       }
@@ -67,7 +67,7 @@ function Notification() {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get('http://localhost:8090/api/v1/controller/getAllNotifications');
-      setNotifications(response.data);
+      setNotifications(response.data.data);
     } catch (error) {
       console.error("Error fetching notifications", error);
     }
