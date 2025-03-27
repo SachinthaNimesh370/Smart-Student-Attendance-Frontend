@@ -20,12 +20,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 // Styled body cell with conditional red font color for null values
-const StyledBodyCell = styled(TableCell)(({ theme, isNull }) => ({
+const StyledBodyCell = styled(TableCell)(({ theme, isnull }) => ({
   fontSize: '12px',
   padding: '4px',
   borderRight: `1px solid ${theme.palette.divider}`,
   textAlign: 'center',
-  color: isNull ? 'red' : 'inherit', // Set font color to red for null values
+  color: isnull ? 'red' : 'inherit', // Set font color to red for null values
 }));
 
 // Custom styled table row
@@ -194,9 +194,8 @@ function Summery() {
                 summeryData.map((row, rowIndex) => (
                   <StyledTableRow key={rowIndex}>
                     {Object.values(row).map((value, colIndex) => (
-                      <StyledBodyCell key={colIndex} isNull={value === null}>
-                        {/* Display string values as they are and convert boolean/null to 1/0 */}
-                        {typeof value === 'boolean' ? (value ? 1 : 0) : value === null ? 0 : value}
+                      <StyledBodyCell key={colIndex} sx={{ color: value === null ? 'red' : 'inherit' }}>
+                                        {typeof value === 'boolean' ? (value ? 1 : 0) : value === null ? 0 : value}
                       </StyledBodyCell>
                     ))}
                   </StyledTableRow>
