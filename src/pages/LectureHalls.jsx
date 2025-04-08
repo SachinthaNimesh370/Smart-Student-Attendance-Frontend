@@ -40,7 +40,7 @@ function LectureHalls() {
 
   const fetchLectureHalls = async () => {
     try {
-      const response = await axios.get('http://localhost:8090/api/v1/controller/getAlllecturehall');
+      const response = await axios.get('http://localhost:8090/api/v1/lecturehall/getAlllecturehall');
       setLectureHalls(response.data.data);
       console.log(response.data.data);
     } catch (error) {
@@ -56,7 +56,7 @@ function LectureHalls() {
     };
 
     try {
-      const response = await axios.post('http://localhost:8090/api/v1/controller/savelecturehall', lectureHallData);
+      const response = await axios.post('http://localhost:8090/api/v1/lecturehall/savelecturehall', lectureHallData);
       alert(response.data.data);
       fetchLectureHalls();
       clearFields();
@@ -79,7 +79,7 @@ function LectureHalls() {
     };
 
     try {
-      const response = await axios.put('http://localhost:8090/api/v1/controller/updatelecturehall', lectureHallData);
+      const response = await axios.put('http://localhost:8090/api/v1/lecturehall/updatelecturehall', lectureHallData);
       alert(response.data.data);
       fetchLectureHalls();
       clearFields();
@@ -98,7 +98,7 @@ function LectureHalls() {
     }
 
     try {
-      const response = await axios.delete(`http://localhost:8090/api/v1/controller/deletelecturehall/${selectedHallId}`);
+      const response = await axios.delete(`http://localhost:8090/api/v1/lecturehall/deletelecturehall/${selectedHallId}`);
       alert(response.data.data);
       fetchLectureHalls();
       clearFields();
